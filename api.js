@@ -1,19 +1,30 @@
 const Products = require('./products')
 
 module.exports = {
+  getProduct,
   listProducts
 }
 
-async function listProducts(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  const { offset = 0, limit = 25 } = req.query
+async function getProduct(req, res, next) {
+  const { id } = req.params
 
-  try {
-    res.json(await Products.list({
-      offset: Number(offset),
-      limit: Number(limit)
-    }))
-  } catch (e) {
-    res.status(500).json({ error: e.message })
-  }
+    const product = await Products.get(id)
+    if (!product) return next()
+
+    res.json(product)
+
 }
+
+async function listProducts(req, res) {
+
+  const { offset = 0, limit = 25, tag } = req.query
+
+  const products = await Products.list({
+    offset: Number(offset),
+    limit: Number(limit),
+    tag
+  })
+    res.json(products)
+}
+
+

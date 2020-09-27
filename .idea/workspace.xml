@@ -48,6 +48,11 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.postfix.templates" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -56,7 +61,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601023753118</updated>
-      <workItem from="1601023754756" duration="3289000" />
+      <workItem from="1601023754756" duration="12712000" />
     </task>
     <servers />
   </component>
@@ -68,5 +73,9 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="46" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1601024992744" />
+    <state x="111" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1601074545107">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="111" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1601074545107" />
   </component>
 </project>
