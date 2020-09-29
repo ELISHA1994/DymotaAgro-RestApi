@@ -30,14 +30,16 @@ async function listProducts(req, res) {
     res.json(products)
 }
 async function createProduct(req, res, next) {
-  console.log('request body', req.body)
-  res.json(req.body)
+  const product = await Products.create(req.body)
+  res.json(product)
 }
 async function editProduct(req, res, next) {
-  console.log('request body', req.body)
-  res.json(req.body)
+  const change = req.body
+  const product = await Products.edit(req.params.id, change)
+  res.json(product)
 }
 async function deleteProduct(req, res, next) {
+  await Products.remove(req.params.id)
   res.json({ success: true })
 }
 

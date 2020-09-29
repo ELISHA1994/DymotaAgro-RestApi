@@ -1,29 +1,57 @@
-const {readFile} = require('fs').promises
-const path = require('path')
+const cuid = require('cuid')
 
-const productsFile = path.join(__dirname, './products.json')
+const db = require('./db')
+
+const Product = db.model('Product', {
+  _id: { type: String, default: cuid },
+  name: {type: String, required: true },
+  purchasePrice: {type: Number, required: true },
+  sellingPrice: {type: Number, required: true },
+  timestamp: { type: Number, default: Date.now() },
+  expiryDate: { type: Number, required: true },
+  priceAdjustment: String,
+})
 
 module.exports = {
   list,
-  get
+  get,
+  create,
+  edit,
+  remove
 }
 
 async function list(opts = {}) {
   const { offset = 0, limit = 25, tag } = opts
 
-  const data = await readFile(productsFile)
-  return JSON.parse(data)
-    .filter((p, i) => !tag || p.tags.indexOf(tag) >= 0)
-    .slice(offset, offset + limit)
+  const query = tag ? { tags: tag } : {}
+  const products = await Product.find(query)
+    .sort({ _id: 1 })
+    .skip(offset)
+    .limit(limit)
+  return products
 }
 
-async function get(id) {
-  const products = JSON.parse(await readFile(productsFile))
-  for (let i = 0; i < products.length; i++) {
-    if (products[i].id === id) return products[i]
-  }
+async function get(_id) {
+  const product = await Product.findById(_id)
+  return product
+}
 
-  return null
+async function create(fields) {
+  const product = await new Product(fields).save()
+  return product
+}
+
+async function edit(_id, change) {
+  const product = await get(_id)
+  Object.keys(change).forEach(function (key) {
+    product[key] = change[key]
+  })
+  await product.save()
+  return product
+}
+
+async function remove(_id) {
+  await Product.deleteOne({ _id })
 }
 
 // curl -sG http://localhost:1337/products -d limit=25 -d offset=50
