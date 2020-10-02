@@ -13,7 +13,7 @@ const Sale = db.model('Sale', {
     }
   ],
   price: { type: Number, required: true },
-  discount: { type: Number, required: true },
+  discount: { type: Number, required: true, default: 0 },
   customer: {
     type: String,
     ref: 'Customer',
@@ -24,7 +24,7 @@ const Sale = db.model('Sale', {
     ref: 'Employee',
     required: true
   },
-  invoiceId: { type: Number, required: true },
+  invoiceId: { type: String, required: true },
   status: {
     type: String,
     index: true,
