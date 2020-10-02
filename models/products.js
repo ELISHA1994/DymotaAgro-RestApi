@@ -1,15 +1,21 @@
 const cuid = require('cuid')
 
-const db = require('./db')
+const db = require('../db')
 
 const Product = db.model('Product', {
   _id: { type: String, default: cuid },
   name: {type: String, required: true },
   purchasePrice: {type: Number, required: true },
   sellingPrice: {type: Number, required: true },
+  quantity: { type: Number, default: 0 },
   timestamp: { type: Number, default: Date.now() },
-  expiryDate: { type: Number, required: true },
-  priceAdjustment: String,
+  expiryDate: { type: String, required: true },
+  priceAdjustment: {
+    type: String,
+    index: true,
+    default: 'FLEXIBLE',
+    enum: ['FIXED', 'FLEXIBLE']
+  }
 })
 
 module.exports = {

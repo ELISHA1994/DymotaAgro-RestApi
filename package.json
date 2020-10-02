@@ -12,6 +12,7 @@
   "dependencies": {
     "cuid": "^2.1.8",
     "express": "^4.17.1",
-    "mongoose": "^5.10.7"
+    "mongoose": "^5.10.7",
+    "validator": "^13.1.17"
   }
 }

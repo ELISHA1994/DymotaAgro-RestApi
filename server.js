@@ -18,6 +18,18 @@ app.post('/products', api.createProduct)
 app.put('/products/:id', api.editProduct)
 app.delete('/products/:id', api.deleteProduct)
 
+// Sales end-point
+app.get('/sales', api.listSales)
+app.get('/sales/:id', api.getSale)
+app.post('/sales', api.createSale)
+app.put('/sales/:id', api.editSale)
+
+// customer end-point
+app.get('/customers', api.listCustomers)
+app.get('/customers/:id', api.getCustomer)
+app.post('/customers', api.createCustomer)
+app.put('/customers/:id', api.editCustomer)
+app.delete('/customers/:id', api.deleteCustomer)
 
 // Not Found and Error Middleware
 app.use(middleware.handleError)

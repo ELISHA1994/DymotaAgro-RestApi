@@ -1,11 +1,22 @@
-const Products = require('./products')
+const Products = require('./models/products')
+const Sales = require('./models/sales')
+const Customers = require('./models/customers')
 
 module.exports = {
   getProduct,
   listProducts,
   createProduct,
   editProduct,
-  deleteProduct
+  deleteProduct,
+  createSale,
+  listSales,
+  getSale,
+  editSale,
+  listCustomers,
+  getCustomer,
+  createCustomer,
+  editCustomer,
+  deleteCustomer
 }
 
 // Products handler
@@ -40,6 +51,71 @@ async function editProduct(req, res, next) {
 }
 async function deleteProduct(req, res, next) {
   await Products.remove(req.params.id)
+  res.json({ success: true })
+}
+
+// Sales handler
+async function getSale(req, res, next) {
+  const { id } = req.params
+
+  const sale = await Sales.get(id)
+  if (!sale) return next()
+
+  res.json(sale)
+}
+async function createSale(req, res, next) {
+  const sale = await Sales.create(req.body)
+  res.json(sale)
+}
+
+async function listSales(req, res, next) {
+  const { offset = 0, limit = 25, productId, status } = req.query
+
+  const sales = await Sales.list({
+    offset: Number(offset),
+    limit: Number(limit),
+    productId,
+    status
+  })
+  res.json(sales)
+}
+
+async function editSale(req, res, next) {
+  const change = req.body
+  const sale = await Sales.edit(req.params.id, change)
+  res.json(sale)
+}
+
+// Customer handler
+async function listCustomers(req, res, next) {
+  const { offset = 0, limit = 25 } = req.query
+  const customers = await Customers.list({
+    offset: Number(offset),
+    limit: Number(limit)
+  })
+  res.json(customers)
+}
+async function getCustomer(req, res, next) {
+  const  { id } = req.params
+  const customer = await Customers.get(id)
+  if (!customer) return next()
+
+  res.json(customer)
+}
+
+async function createCustomer(req, res, next) {
+  const customer = await Customers.create(req.body)
+  res.json(customer)
+}
+
+async function editCustomer(req, res, next) {
+  const change = req.body
+  const customer = await Customers.edit(req.params.id, change)
+  res.json(customer)
+}
+
+async function deleteCustomer(req, res, next) {
+  await Customers.remove(req.params.id)
   res.json({ success: true })
 }
 
