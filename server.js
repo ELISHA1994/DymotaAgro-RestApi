@@ -31,6 +31,13 @@ app.post('/customers', api.createCustomer)
 app.put('/customers/:id', api.editCustomer)
 app.delete('/customers/:id', api.deleteCustomer)
 
+// Employee end-point
+app.get('/employees', api.listEmployees)
+app.get('/employees/:id', api.getEmployee)
+app.post('/employees', api.createEmployee)
+app.put('/employees/:id', api.editEmployee)
+app.delete('/employees/:id', api.deleteEmployee)
+
 // Not Found and Error Middleware
 app.use(middleware.handleError)
 app.use(middleware.notFound)

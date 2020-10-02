@@ -1,6 +1,7 @@
 const Products = require('./models/products')
 const Sales = require('./models/sales')
 const Customers = require('./models/customers')
+const Employees = require('./models/employees')
 
 module.exports = {
   getProduct,
@@ -16,7 +17,12 @@ module.exports = {
   getCustomer,
   createCustomer,
   editCustomer,
-  deleteCustomer
+  deleteCustomer,
+  listEmployees,
+  getEmployee,
+  createEmployee,
+  editEmployee,
+  deleteEmployee
 }
 
 // Products handler
@@ -116,6 +122,39 @@ async function editCustomer(req, res, next) {
 
 async function deleteCustomer(req, res, next) {
   await Customers.remove(req.params.id)
+  res.json({ success: true })
+}
+
+// Employee handler
+async function listEmployees(req, res, next) {
+  const { offset = 0, limit = 25 } = req.query
+  const employees = await Employees.list({
+    offset: Number(offset),
+    limit: Number(limit)
+  })
+  res.json(employees)
+}
+
+async function getEmployee(req, res, next) {
+  const { id } =  req.params
+  const employee = await Employees.get(id)
+  if (!employee) return next()
+  res.json(employee)
+}
+
+async function createEmployee(req, res, next) {
+  const employee = await Employees.create(req.body)
+  res.json(employee)
+}
+
+async function editEmployee(req, res, next) {
+  const change = req.body
+  const employee = await Employees.edit(req.params.id, change)
+  res.json(employee)
+}
+
+async function deleteEmployee(req, res, next) {
+  await Employees.remove(req.params.id)
   res.json({ success: true })
 }
 
