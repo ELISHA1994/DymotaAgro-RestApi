@@ -2,6 +2,7 @@ const cuid = require('cuid')
 
 const db = require('../db')
 
+
 const Sale = db.model('Sale', {
   _id: { type: String, default: cuid },
   products: [

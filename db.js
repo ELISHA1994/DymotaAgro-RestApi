@@ -4,7 +4,10 @@ const dbRoute = 'mongodb+srv://todoappDB:todoappdb@cluster0-sjh2l.mongodb.net/DY
 
 mongoose.connect(
   process.env.MONGO_URI || 'mongodb://localhost:8080/DYMOTA_AGRO',
-  { useNewUrlParser: true, useCreateIndex: true }
+  { useNewUrlParser: true, useCreateIndex: true },
+  () => {
+    console.log("Connected to Database")
+  }
 )
 
 

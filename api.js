@@ -2,6 +2,7 @@ const Products = require('./models/products')
 const Sales = require('./models/sales')
 const Customers = require('./models/customers')
 const Employees = require('./models/employees')
+const Suppliers = require('./models/suppliers')
 
 module.exports = {
   getProduct,
@@ -22,7 +23,12 @@ module.exports = {
   getEmployee,
   createEmployee,
   editEmployee,
-  deleteEmployee
+  deleteEmployee,
+  createSupplier,
+  listSuppliers,
+  getSupplier,
+  editSupplier,
+  deleteSupplier
 }
 
 // Products handler
@@ -158,7 +164,35 @@ async function deleteEmployee(req, res, next) {
   res.json({ success: true })
 }
 
-// curl -X POST -d '{"description":"test product", "link":"https://example.com"}' -H "Content-Type: application/json" http://localhost:1337/products
+// Supplier handler
+async function createSupplier(req, res, next) {
+  const supplier = await Suppliers.create(req.body)
+  res.json(supplier)
+}
 
+async function listSuppliers(req, res, next) {
+  const { offset = 0, limit = 25 } = req.query
+  const suppliers = await Suppliers.list({
+    offset: Number(offset),
+    limit: Number(limit)
+  })
+  res.json(suppliers)
+}
 
+async function getSupplier(req, res, next) {
+  const { id } = req.params
+  const supplier = await Suppliers.get(id)
+  if (!supplier) return next()
+  res.json(supplier)
+}
 
+async function editSupplier(req, res, next) {
+  const change = req.body
+  const supplier = await Suppliers.edit(req.params.id, change)
+  res.json(supplier)
+}
+
+async function deleteSupplier(req, res, next) {
+  await Suppliers.remove(req.params.id)
+  res.json({ success: true })
+}

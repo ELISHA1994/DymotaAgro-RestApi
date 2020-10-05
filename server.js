@@ -38,8 +38,22 @@ app.post('/employees', api.createEmployee)
 app.put('/employees/:id', api.editEmployee)
 app.delete('/employees/:id', api.deleteEmployee)
 
+// Supplier end-point
+app.post('/suppliers', api.createSupplier)
+app.get('/suppliers', api.listSuppliers)
+app.get('/suppliers/:id', api.getSupplier)
+app.put('/suppliers/:id', api.editSupplier)
+app.delete('/suppliers/:id', api.deleteSupplier)
+
 // Not Found and Error Middleware
 app.use(middleware.handleError)
 app.use(middleware.notFound)
 
 app.listen(port, () => console.log(`Server listening on port ${port}`))
+
+
+// :- List :- curl -s http://localhost:1337/path | jq
+// :- Create :- curl -sX POST http://localhost:1337/path -H 'Content-Type: application/json' -d '{}' | jq
+// :- Edit :- curl -X PUT http://localhost:1337/path/id -H 'Content-Type: application/json' -d '{"change object"}' | jq
+// :- Get :- curl -s http://localhost:1337/path/id | jq
+// :- Delete :- curl -X DELETE http://localhost:1337/products/cjvo3vikw0003n8gl0tq318zo
