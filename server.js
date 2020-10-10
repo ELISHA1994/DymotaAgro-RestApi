@@ -12,29 +12,30 @@ app.use(middleware.cors)
 app.use(bodyParser.json())
 
 //Product end-point
+app.post('/products', api.createProduct)
 app.get('/products', api.listProducts)
 app.get('/products/:id', api.getProduct)
-app.post('/products', api.createProduct)
 app.put('/products/:id', api.editProduct)
 app.delete('/products/:id', api.deleteProduct)
 
 // Sales end-point
+app.post('/sales', api.createSale)
 app.get('/sales', api.listSales)
 app.get('/sales/:id', api.getSale)
-app.post('/sales', api.createSale)
 app.put('/sales/:id', api.editSale)
+app.delete('/sales/:id', api.deleteSale)
 
 // customer end-point
+app.post('/customers', api.createCustomer)
 app.get('/customers', api.listCustomers)
 app.get('/customers/:id', api.getCustomer)
-app.post('/customers', api.createCustomer)
 app.put('/customers/:id', api.editCustomer)
 app.delete('/customers/:id', api.deleteCustomer)
 
 // Employee end-point
+app.post('/employees', api.createEmployee)
 app.get('/employees', api.listEmployees)
 app.get('/employees/:id', api.getEmployee)
-app.post('/employees', api.createEmployee)
 app.put('/employees/:id', api.editEmployee)
 app.delete('/employees/:id', api.deleteEmployee)
 
@@ -44,6 +45,10 @@ app.get('/suppliers', api.listSuppliers)
 app.get('/suppliers/:id', api.getSupplier)
 app.put('/suppliers/:id', api.editSupplier)
 app.delete('/suppliers/:id', api.deleteSupplier)
+
+// Purchases end-point
+app.post('/purchases', api.createPurchase)
+app.delete('/purchases/:id', api.deletePurchase)
 
 // Not Found and Error Middleware
 app.use(middleware.handleError)

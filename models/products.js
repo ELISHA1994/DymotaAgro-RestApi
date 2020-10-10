@@ -23,7 +23,10 @@ module.exports = {
   get,
   create,
   edit,
-  remove
+  remove,
+  addProduct,
+  subtractProduct,
+  getPrice
 }
 
 async function list(opts = {}) {
@@ -41,6 +44,12 @@ async function get(_id) {
   const product = await Product.findById(_id)
   return product
 }
+async function getPrice(_id) {
+  const product = await Product.findById(_id)
+  const sellingPrice = product.sellingPrice
+  console.log(sellingPrice)
+  return sellingPrice
+}
 
 async function create(fields) {
   const product = await new Product(fields).save()
@@ -51,6 +60,22 @@ async function edit(_id, change) {
   const product = await get(_id)
   Object.keys(change).forEach(function (key) {
     product[key] = change[key]
+  })
+  await product.save()
+  return product
+}
+async function addProduct(_id, change) {
+  const product = await get(_id)
+  Object.keys(change).forEach(function (key) {
+    product[key] += change[key]
+  })
+  await product.save()
+  return product
+}
+async function subtractProduct(_id, change) {
+  const product = await get(_id)
+  Object.keys(change).forEach(function (key) {
+    product[key] -= change[key]
   })
   await product.save()
   return product

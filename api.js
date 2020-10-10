@@ -3,6 +3,7 @@ const Sales = require('./models/sales')
 const Customers = require('./models/customers')
 const Employees = require('./models/employees')
 const Suppliers = require('./models/suppliers')
+const Purchases = require('./models/purchases')
 
 module.exports = {
   getProduct,
@@ -14,6 +15,7 @@ module.exports = {
   listSales,
   getSale,
   editSale,
+  deleteSale,
   listCustomers,
   getCustomer,
   createCustomer,
@@ -28,7 +30,9 @@ module.exports = {
   listSuppliers,
   getSupplier,
   editSupplier,
-  deleteSupplier
+  deleteSupplier,
+  createPurchase,
+  deletePurchase
 }
 
 // Products handler
@@ -96,6 +100,10 @@ async function editSale(req, res, next) {
   const change = req.body
   const sale = await Sales.edit(req.params.id, change)
   res.json(sale)
+}
+async function deleteSale(req, res, next) {
+  await Sales.remove(req.params.id)
+  res.json({ success: true })
 }
 
 // Customer handler
@@ -194,5 +202,16 @@ async function editSupplier(req, res, next) {
 
 async function deleteSupplier(req, res, next) {
   await Suppliers.remove(req.params.id)
+  res.json({ success: true })
+}
+
+// Purchase handler
+async function createPurchase(req, res, next) {
+  const purchase = await Purchases.create(req.body)
+  res.json(purchase)
+}
+
+async function deletePurchase(req, res, next) {
+  await Purchases.remove(req.params.id)
   res.json({ success: true })
 }
