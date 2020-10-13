@@ -32,6 +32,9 @@ module.exports = {
   editSupplier,
   deleteSupplier,
   createPurchase,
+  listPurchases,
+  getPurchase,
+  editPurchase,
   deletePurchase
 }
 
@@ -211,7 +214,29 @@ async function createPurchase(req, res, next) {
   res.json(purchase)
 }
 
+async function listPurchases(req, res, next) {
+  const {offset = 0, limit = 25} = req.query
+  const purchases = await Purchases.list({
+    offset: Number(offset),
+    limit: Number(limit)
+  })
+  res.json(purchases)
+}
+
+async function getPurchase(req, res, next) {
+  const { id } = req.params
+  const purchase = await Purchases.get(id)
+  if (!purchase) return next()
+  return res.json(purchase)
+}
+
+async function editPurchase(req, res, next) {
+  const change = req.body
+  const purchase = await Purchases.edit(req.params.id, change)
+  return res.json(purchase)
+}
 async function deletePurchase(req, res, next) {
   await Purchases.remove(req.params.id)
   res.json({ success: true })
 }
+

@@ -27,7 +27,10 @@ const Purchase = db.model('Purchase', {
 
 module.exports = {
   create,
-  remove
+  remove,
+  list,
+  get,
+  edit
 }
 
 async function create(fields) {
@@ -50,6 +53,32 @@ async function create(fields) {
   await purchase
     .populate('supplier')
     .execPopulate()
+  return purchase
+}
+
+async function list(opts = {}) {
+  const { offset = 0, limit = 25, tag } = opts
+
+  const query = tag ? { tags: tag } : {}
+  const purchases = await Purchase.find(query)
+    .sort({ _id: 1 })
+    .skip(offset)
+    .limit(limit)
+  return purchases
+}
+
+async function get(_id) {
+  const purchase = await Purchase.findById(_id)
+    .populate('supplier')
+    .exec()
+  return purchase
+}
+async function edit(_id, change) {
+  const purchase = await get(_id)
+  Object.keys(change).forEach(function (key) {
+    purchase[key] = change[key]
+  })
+  await purchase.save()
   return purchase
 }
 

@@ -48,6 +48,9 @@ app.delete('/suppliers/:id', api.deleteSupplier)
 
 // Purchases end-point
 app.post('/purchases', api.createPurchase)
+app.get('/purchases', api.listPurchases)
+app.get('/purchases/:id', api.getPurchase)
+app.put('/purchases/:id', api.editPurchase)
 app.delete('/purchases/:id', api.deletePurchase)
 
 // Not Found and Error Middleware
@@ -62,3 +65,5 @@ app.listen(port, () => console.log(`Server listening on port ${port}`))
 // :- Edit :- curl -X PUT http://localhost:1337/path/id -H 'Content-Type: application/json' -d '{"change object"}' | jq
 // :- Get :- curl -s http://localhost:1337/path/id | jq
 // :- Delete :- curl -X DELETE http://localhost:1337/products/cjvo3vikw0003n8gl0tq318zo
+// :- mongo --port 8080  || use DYMOTA_AGRO || db.purchases.find().pretty()
+// :- sudo mongod --dbpath /Users/elishabello/Desktop/data/db --port 8080

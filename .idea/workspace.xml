@@ -4,8 +4,7 @@
     <list default="true" id="05dfef6d-e4bf-4cfe-82c0-b4704b35fe70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/products.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/sales.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/sales.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/purchases.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/purchases.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/components/kit/widgets/Charts/11/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/kit/widgets/Charts/11/index.js" afterDir="false" />
     </list>
@@ -77,7 +76,8 @@
       <workItem from="1601647594907" duration="4484000" />
       <workItem from="1601902794608" duration="5697000" />
       <workItem from="1601930473843" duration="38695000" />
-      <workItem from="1602322403037" duration="1954000" />
+      <workItem from="1602322403037" duration="2762000" />
+      <workItem from="1602528373448" duration="4050000" />
     </task>
     <servers />
   </component>
@@ -85,6 +85,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="554" y="360" key="#Notifications" timestamp="1602334352099">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="554" y="360" key="#Notifications/0.0.1680.1050@0.0.1680.1050" timestamp="1602334352099" />
     <state x="46" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601024992744">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
