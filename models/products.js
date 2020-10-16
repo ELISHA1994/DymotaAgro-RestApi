@@ -26,7 +26,6 @@ module.exports = {
   remove,
   addProduct,
   subtractProduct,
-  getPrice
 }
 
 async function list(opts = {}) {
@@ -43,12 +42,6 @@ async function list(opts = {}) {
 async function get(_id) {
   const product = await Product.findById(_id)
   return product
-}
-async function getPrice(_id) {
-  const product = await Product.findById(_id)
-  const sellingPrice = product.sellingPrice
-  console.log(sellingPrice)
-  return sellingPrice
 }
 
 async function create(fields) {

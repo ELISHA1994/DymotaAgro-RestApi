@@ -4,6 +4,7 @@ const Customers = require('./models/customers')
 const Employees = require('./models/employees')
 const Suppliers = require('./models/suppliers')
 const Purchases = require('./models/purchases')
+const Expenses = require('./models/expenses')
 
 module.exports = {
   getProduct,
@@ -35,7 +36,12 @@ module.exports = {
   listPurchases,
   getPurchase,
   editPurchase,
-  deletePurchase
+  deletePurchase,
+  createExpense,
+  listExpenses,
+  getExpense,
+  editExpense,
+  deleteExpense
 }
 
 // Products handler
@@ -238,5 +244,38 @@ async function editPurchase(req, res, next) {
 async function deletePurchase(req, res, next) {
   await Purchases.remove(req.params.id)
   res.json({ success: true })
+}
+
+// Expenses handler
+async function createExpense(req, res, next) {
+  const expense = await Expenses.create(req.body)
+  res.json(expense)
+}
+
+async function listExpenses(req, res, next) {
+  const {offset = 0, limit = 25} = req.query
+  const expenses = await Expenses.list({
+    offset: Number(offset),
+    limit: Number(limit)
+  })
+  res.json(expenses)
+}
+
+async function getExpense(req, res, next) {
+  const { id } = req.params
+  const expense = await Expenses.get(id)
+  if (!expense) return next()
+  return res.json(expense)
+}
+
+async function editExpense(req, res, next) {
+  const change = req.body
+  const expense = await Expenses.edit(req.params.id, change)
+  return res.json(expense)
+}
+
+async function deleteExpense(req, res, next) {
+  await Expenses.remove(req.params.id)
+  return res.json({ success: true })
 }
 

@@ -53,6 +53,13 @@ app.get('/purchases/:id', api.getPurchase)
 app.put('/purchases/:id', api.editPurchase)
 app.delete('/purchases/:id', api.deletePurchase)
 
+// Expenses end-point
+app.post('/expenses', api.createExpense)
+app.get('/expenses', api.listExpenses)
+app.get('/expenses/:id', api.getExpense)
+app.put('/expenses/:id', api.editExpense)
+app.delete('/expenses/:id', api.deleteExpense)
+
 // Not Found and Error Middleware
 app.use(middleware.handleError)
 app.use(middleware.notFound)
