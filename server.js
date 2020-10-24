@@ -1,22 +1,29 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 const api = require('./api')
+const auth = require('./auth')
 const middleware = require('./middleware')
 
 const port = process.env.PORT || 1337
+
 const app = express()
 
 // middlewares
 app.use(middleware.cors)
 app.use(bodyParser.json())
+app.use(cookieParser())
+
+// Login
+app.post('/login', auth.authenticate, auth.login)
 
 //Product end-point
-app.post('/products', api.createProduct)
-app.get('/products', api.listProducts)
-app.get('/products/:id', api.getProduct)
-app.put('/products/:id', api.editProduct)
-app.delete('/products/:id', api.deleteProduct)
+app.post('/products', auth.ensureAdmin, api.createProduct)
+app.get('/products', auth.ensureAdmin, api.listProducts)
+app.get('/products/:id', auth.ensureAdmin, api.getProduct)
+app.put('/products/:id', auth.ensureAdmin, api.editProduct)
+app.delete('/products/:id', auth.ensureAdmin, api.deleteProduct)
 
 // Sales end-point
 app.post('/sales', api.createSale)
@@ -64,8 +71,13 @@ app.delete('/expenses/:id', api.deleteExpense)
 app.use(middleware.handleError)
 app.use(middleware.notFound)
 
-app.listen(port, () => console.log(`Server listening on port ${port}`))
+const server = app.listen(port, () =>
+  console.log(`Server listening on port ${port}`)
+)
 
+if (require.main !== module) {
+  module.exports = server
+}
 
 // :- List :- curl -s http://localhost:1337/path | jq
 // :- Create :- curl -sX POST http://localhost:1337/path -H 'Content-Type: application/json' -d '{}' | jq
@@ -74,3 +86,7 @@ app.listen(port, () => console.log(`Server listening on port ${port}`))
 // :- Delete :- curl -X DELETE http://localhost:1337/products/cjvo3vikw0003n8gl0tq318zo
 // :- mongo --port 8080  || use DYMOTA_AGRO || db.purchases.find().pretty()
 // :- sudo mongod --dbpath /Users/elishabello/Desktop/data/db --port 8080
+// :- login command curl -iX POST -H 'content-type: application/json' -d '{"username": "admin", "password": "iloveyoudebbie"}' --cookie-jar cookies http://localhost:1337/login
+                 // Login using jwt
+// :- login command curl -X POST -H 'content-type: application/json' -d '{"username": "admin", "password": "iloveyoudebbie"}' http://localhost:1337/login | jq -r .token > admin.jwt
+// curl -H "authorization: Bearer $(cat admin.jwt)" http://localhost:1337/products
