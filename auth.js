@@ -1,7 +1,9 @@
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 const passport = require('passport')
 const Strategy = require('passport-local').Strategy
-const jwt = require('jsonwebtoken')
 
+const Users = require('./models/users')
 const autoCatch = require('./lib/auto-catch')
 
 const jwtSecret = process.env.JWT_SECRET || 'mark it zero'
@@ -13,20 +15,42 @@ const authenticate = passport.authenticate('local', { session: false })
 
 module.exports = {
   authenticate,
-  login: autoCatch(login),
-  ensureAdmin: autoCatch(ensureAdmin)
+  userLogin: autoCatch(userLogin),
+  adminLogin: autoCatch(adminLogin),
+  ensureUser: autoCatch(ensureUser),
 }
 
-async function login (req, res, next) {
+async function userLogin (req, res, next) {
+  const user = await Users.get(req.user.username)
+  if (user) {
+    const userData = { ...user }
+    delete userData.password
+    userData.accessToken = await sign({ username: req.user.username, role: req.user.role })
+    res.cookie('jwt', userData.accessToken, { httpOnly: true })
+    res.statusCode = 200
+    res.json({ success: true, userData: userData })
+    console.log(userData)
+  }
+}
+
+async function adminLogin(req, res, next) {
   const token = await sign({ username: req.user.username })
   res.cookie('jwt', token, { httpOnly: true })
   res.json({ success: true, token: token })
 }
 
-async function ensureAdmin (req, res, next) {
+async function ensureUser (req, res, next) {
   const jwtString = req.headers.authorization || req.cookies.jwt
   const payload = await verify(jwtString)
-  if (payload.username === 'admin') return next()
+  if (payload.username) {
+    if (payload.username === 'admin')
+      req.isAdmin = true
+
+    req.user = payload
+    if (req.user.role === 'admin')
+      req.isAdmin = true
+    return next()
+  }
 
   const err = new Error('Unauthorized')
   err.statusCode = 401
@@ -51,10 +75,18 @@ async function verify (jwtString = '') {
 }
 
 function adminStrategy () {
-  return new Strategy(function (username, password, cb) {
-    const isAdmin = username === 'admin' && password === adminPassword
-    if (isAdmin) return cb(null, { username: 'admin' })
 
+  return new Strategy(async function (username, password, cb) {
+    const isAdmin = username === 'admin' && password === adminPassword
+    if (isAdmin) return cb(null, { username: 'admin'})
+    try {
+      const user = await Users.get(username)
+      if (!user) return cb(null, false)
+      const isUser = await bcrypt.compare(password, user.password)
+      if (isUser) return cb(null, { username: user.username, role: user.role })
+    } catch (e) {
+      cb(null, false)
+    }
     cb(null, false)
   })
 }

@@ -24,6 +24,7 @@ function cors(req, res, next) {
 function handleError(err, req, res, next) {
   console.error(err)
   if (res.headersSent) return next(err)
+  if (res.error) return next(err)
   res.status(500).json({ error: 'Internal Error' })
 }
 

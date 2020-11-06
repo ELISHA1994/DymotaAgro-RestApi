@@ -16,28 +16,37 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 // Login
-app.post('/login', auth.authenticate, auth.login)
+app.post('/login', auth.authenticate, auth.userLogin)
+app.post('/adminlogin', auth.authenticate, auth.adminLogin)
+
+// User create
+app.post('/users', auth.ensureUser, api.createUser)
+app.get('/users', auth.ensureUser, api.listUsers)
+app.get('/users/:username', auth.ensureUser, api.getUser)
+app.put('/users/:username', auth.ensureUser, api.editUser)
+app.delete('./users/:username', auth.ensureUser, api.deleteUser)
+
 
 //Product end-point
-app.post('/products', auth.ensureAdmin, api.createProduct)
-app.get('/products', auth.ensureAdmin, api.listProducts)
-app.get('/products/:id', auth.ensureAdmin, api.getProduct)
-app.put('/products/:id', auth.ensureAdmin, api.editProduct)
-app.delete('/products/:id', auth.ensureAdmin, api.deleteProduct)
+app.post('/products', auth.ensureUser, api.createProduct)
+app.get('/products', auth.ensureUser, api.listProducts)
+app.get('/products/:id', auth.ensureUser, api.getProduct)
+app.put('/products/:id', auth.ensureUser, api.editProduct)
+app.delete('/products/:id', auth.ensureUser, api.deleteProduct)
 
 // Sales end-point
-app.post('/sales', api.createSale)
-app.get('/sales', api.listSales)
-app.get('/sales/:id', api.getSale)
-app.put('/sales/:id', api.editSale)
-app.delete('/sales/:id', api.deleteSale)
+app.post('/sales', auth.ensureUser, api.createSale)
+app.get('/sales', auth.ensureUser, api.listSales)
+app.get('/sales/:id', auth.ensureUser, api.getSale)
+app.put('/sales/:id', auth.ensureUser, api.editSale)
+app.delete('/sales/:id', auth.ensureUser, api.deleteSale)
 
 // customer end-point
-app.post('/customers', api.createCustomer)
-app.get('/customers', api.listCustomers)
-app.get('/customers/:id', api.getCustomer)
-app.put('/customers/:id', api.editCustomer)
-app.delete('/customers/:id', api.deleteCustomer)
+app.post('/customers', auth.ensureUser, api.createCustomer)
+app.get('/customers', auth.ensureUser, api.listCustomers)
+app.get('/customers/:id', auth.ensureUser, api.getCustomer)
+app.put('/customers/:id', auth.ensureUser, api.editCustomer)
+app.delete('/customers/:id', auth.ensureUser, api.deleteCustomer)
 
 // Employee end-point
 app.post('/employees', api.createEmployee)
@@ -90,3 +99,11 @@ if (require.main !== module) {
                  // Login using jwt
 // :- login command curl -X POST -H 'content-type: application/json' -d '{"username": "admin", "password": "iloveyoudebbie"}' http://localhost:1337/login | jq -r .token > admin.jwt
 // curl -H "authorization: Bearer $(cat admin.jwt)" http://localhost:1337/products
+// curl -H "authorization: Bearer $(cat admin.jwt)" http://localhost:1337/products
+
+// curl -iX POST -H 'content-type: application/json' -d '{ "username": "donny", "email": "donald@kerabatsos.io", "password": "I love surfing" }' http://localhost:1337/users
+// -d '{ "username": "elisha", "name": "Elisha Bello" "email": "elishabello2014@gmail.com", "password": "iloveyoudebbie", "role": "admin", "avatar": "resources/images/avatars/1.jpg", "phone": "07066513015", "salaryPlan": "Monthly" }'
+
+// curl -iX POST -H 'content-type: application/json'  -d '{"username": "donny", "password": "I love surfing"}' http://localhost:1337/login
+// curl -iX POST -H 'content-type: application/json' -d '{ "username": "elisha", "name": "Elisha Bello", "email": "elishabello2014@gmail.com", "password": "iloveyoudebbie", "role": "admin", "avatar": "resources/images/avatars/1.jpg", "phone": "07066513015", "salaryPlan": "Monthly" }' http://localhost:1337/users
+// curl -X POST -H 'content-type: application/json'  -d '{"username": "elisha", "password":"iloveyoudebbie"}' http://localhost:1337/login | jq -r .token > admin.jwt

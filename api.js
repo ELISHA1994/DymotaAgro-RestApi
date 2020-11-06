@@ -5,6 +5,7 @@ const Employees = require('./models/employees')
 const Suppliers = require('./models/suppliers')
 const Purchases = require('./models/purchases')
 const Expenses = require('./models/expenses')
+const Users = require('./models/users')
 
 module.exports = {
   getProduct,
@@ -41,20 +42,35 @@ module.exports = {
   listExpenses,
   getExpense,
   editExpense,
-  deleteExpense
+  deleteExpense,
+  createUser,
+  deleteUser,
+  getUser,
+  listUsers,
+  editUser
 }
 
 // Products handler
+async function createProduct(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
+  const product = await Products.create(req.body)
+  res.json(product)
+}
+
 async function getProduct(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
   const { id } = req.params
 
-    const product = await Products.get(id)
-    if (!product) return next()
+  const product = await Products.get(id)
+  if (!product) return next()
 
-    res.json(product)
-
+  res.json(product)
 }
-async function listProducts(req, res) {
+
+async function listProducts(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
 
   const { offset = 0, limit = 25, tag } = req.query
 
@@ -65,16 +81,18 @@ async function listProducts(req, res) {
   })
     res.json(products)
 }
-async function createProduct(req, res, next) {
-  const product = await Products.create(req.body)
-  res.json(product)
-}
+
 async function editProduct(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
   const change = req.body
   const product = await Products.edit(req.params.id, change)
   res.json(product)
 }
+
 async function deleteProduct(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
   await Products.remove(req.params.id)
   res.json({ success: true })
 }
@@ -95,13 +113,14 @@ async function createSale(req, res, next) {
 
 async function listSales(req, res, next) {
   const { offset = 0, limit = 25, productId, status } = req.query
-
-  const sales = await Sales.list({
+  const opts = {
     offset: Number(offset),
     limit: Number(limit),
     productId,
     status
-  })
+  }
+  if (!req.isAdmin) opts.username = req.user.username
+  const sales = await Sales.list(opts)
   res.json(sales)
 }
 
@@ -279,3 +298,51 @@ async function deleteExpense(req, res, next) {
   return res.json({ success: true })
 }
 
+async function createUser(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
+  const user = await Users.create(req.body)
+  const { username, email, avatar, role, phone, salaryPlan, name } = user
+  res.json({ username, email, avatar, role, phone, salaryPlan, name })
+}
+
+async function deleteUser(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
+  await Users.remove(req.params.username)
+  return res.json({ success: true })
+}
+
+async function getUser(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
+  const { username } = req.params
+  const user = await Users.get(username)
+  console.log(user)
+}
+
+async function listUsers(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
+  const {offset = 0, limit = 25} = req.query
+  const users = await Users.list({
+    offset: Number(offset),
+    limit: Number(limit)
+  })
+  res.json(users)
+}
+
+async function editUser(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
+  const change = req.body
+  const user = await Users.edit(req.params.username, change)
+  res.json(user)
+}
+
+
+function forbidden(next) {
+  const err = new Error('Forbidden')
+  err.statusCode = 403
+  return next(err)
+}
