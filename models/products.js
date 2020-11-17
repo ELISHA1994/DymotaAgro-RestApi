@@ -65,6 +65,7 @@ async function addProduct(_id, change) {
   await product.save()
   return product
 }
+
 async function subtractProduct(_id, change) {
   const product = await get(_id)
   Object.keys(change).forEach(function (key) {

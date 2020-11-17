@@ -15,21 +15,58 @@ const authenticate = passport.authenticate('local', { session: false })
 
 module.exports = {
   authenticate,
+  logout: autoCatch(logout),
   userLogin: autoCatch(userLogin),
   adminLogin: autoCatch(adminLogin),
   ensureUser: autoCatch(ensureUser),
+  currentAccount: autoCatch(currentAccount),
+  changePassword: autoCatch(changePassword),
 }
 
 async function userLogin (req, res, next) {
-  const user = await Users.get(req.user.username)
+  const { username } = req.body
+  const user = await Users.get(username)
   if (user) {
     const userData = { ...user }
     delete userData.password
-    userData.accessToken = await sign({ username: req.user.username, role: req.user.role })
+    userData.accessToken = await sign({ username: req.user.username })
     res.cookie('jwt', userData.accessToken, { httpOnly: true })
     res.statusCode = 200
     res.json({ success: true, userData: userData })
-    console.log(userData)
+    // console.log(userData)
+  }
+}
+
+async function changePassword(req, res, next) {
+  if (!req.isAdmin) return forbidden(next)
+
+  const change  = req.body
+  // console.log(change)
+  const user = await Users.changePassword(req.params.username, change)
+  // console.log(user)
+  if (user) {
+    const userData = { ...user }
+    delete userData.password
+    userData.accessToken = await sign({ username: req.params.username })
+    res.cookie('jwt', userData.accessToken, { httpOnly: true })
+    res.statusCode = 200
+    res.json({ success: true, userData: userData })
+  }
+}
+
+async function logout(req, res, next) {
+  res.json({success: true})
+}
+
+async function currentAccount (req, res, next) {
+  const jwtString = req.headers.authorization || req.cookies.jwt
+  const payload = await verify(jwtString)
+  const { username } = payload
+  const user = await Users.get(username)
+  if (user) {
+    res.statusCode = 200
+    res.json({ success: true, userData: user })
+    // console.log(user)
   }
 }
 
@@ -41,12 +78,14 @@ async function adminLogin(req, res, next) {
 
 async function ensureUser (req, res, next) {
   const jwtString = req.headers.authorization || req.cookies.jwt
+  // console.log(jwtString)
   const payload = await verify(jwtString)
   if (payload.username) {
     if (payload.username === 'admin')
       req.isAdmin = true
 
-    req.user = payload
+    req.user = await Users.get(payload.username)
+    // console.log(req.user)
     if (req.user.role === 'admin')
       req.isAdmin = true
     return next()
@@ -82,11 +121,17 @@ function adminStrategy () {
     try {
       const user = await Users.get(username)
       if (!user) return cb(null, false)
-      const isUser = await bcrypt.compare(password, user.password)
+      const isUser =  bcrypt.compare(password, user.password)
       if (isUser) return cb(null, { username: user.username, role: user.role })
     } catch (e) {
       cb(null, false)
     }
     cb(null, false)
   })
+}
+
+function forbidden(next) {
+  const err = new Error('Forbidden')
+  err.statusCode = 403
+  return next(err)
 }

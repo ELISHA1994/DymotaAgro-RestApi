@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 const api = require('./api')
 const auth = require('./auth')
@@ -11,20 +12,28 @@ const port = process.env.PORT || 1337
 const app = express()
 
 // middlewares
-app.use(middleware.cors)
+app.use(cors())
 app.use(bodyParser.json())
 app.use(cookieParser())
+
+
+// Dashboard
+// app.get('/dashboard', auth.ensureUser, api.getData)
 
 // Login
 app.post('/login', auth.authenticate, auth.userLogin)
 app.post('/adminlogin', auth.authenticate, auth.adminLogin)
+app.get('/account',  auth.ensureUser, auth.currentAccount)
+app.get('/logout', auth.logout)
 
 // User create
 app.post('/users', auth.ensureUser, api.createUser)
-app.get('/users', auth.ensureUser, api.listUsers)
+app.get('/users', api.listUsers)
 app.get('/users/:username', auth.ensureUser, api.getUser)
 app.put('/users/:username', auth.ensureUser, api.editUser)
+app.put('/password/:username', auth.ensureUser, auth.changePassword)
 app.delete('./users/:username', auth.ensureUser, api.deleteUser)
+
 
 
 //Product end-point
@@ -77,6 +86,7 @@ app.put('/expenses/:id', api.editExpense)
 app.delete('/expenses/:id', api.deleteExpense)
 
 // Not Found and Error Middleware
+app.use(middleware.handleValidationError)
 app.use(middleware.handleError)
 app.use(middleware.notFound)
 
@@ -107,3 +117,4 @@ if (require.main !== module) {
 // curl -iX POST -H 'content-type: application/json'  -d '{"username": "donny", "password": "I love surfing"}' http://localhost:1337/login
 // curl -iX POST -H 'content-type: application/json' -d '{ "username": "elisha", "name": "Elisha Bello", "email": "elishabello2014@gmail.com", "password": "iloveyoudebbie", "role": "admin", "avatar": "resources/images/avatars/1.jpg", "phone": "07066513015", "salaryPlan": "Monthly" }' http://localhost:1337/users
 // curl -X POST -H 'content-type: application/json'  -d '{"username": "elisha", "password":"iloveyoudebbie"}' http://localhost:1337/login | jq -r .token > admin.jwt
+// '{"products": ["ckfpf872b00003mtgc2zxagqz", "ckfpfuap200002otg5zcc4ruw", "ckfra4yyn0000bhtg0o6hdljr"], "customer": "ckfrgiyou0001zdtg90w6d4k2", "employee": "ckfss5r9f0000k7vq3s6qdr9l", "invoiceId": "DYKE01", "totalPrice": 750000000 }'

@@ -24,6 +24,7 @@ module.exports = {
   create,
   edit,
   remove,
+  changePassword,
   model: User
 }
 
@@ -56,6 +57,15 @@ async function create(fields) {
 async function edit(username, change) {
   const user = await get(username)
   Object.keys(change).forEach(key => { user[key] = change[key] })
+  if (change.password) await hashPassword(user)
+  await user.save()
+  return user
+}
+
+async function changePassword(username, change) {
+  const user = await get(username)
+  Object.keys(change).forEach(key => { user[key] = change[key] })
+
   if (change.password) await hashPassword(user)
   await user.save()
   return user

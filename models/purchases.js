@@ -4,6 +4,7 @@ const Products = require('./products');
 
 const Purchase = db.model('Purchase', {
   _id: { type: String, default: cuid },
+  timestamp: { type: Number, default: Date.now() },
   products: [
     {
       _id: false,

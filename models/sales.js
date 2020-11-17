@@ -19,6 +19,7 @@ const Sale = db.model('Sale', {
   totalQuantity: { type: Number, default: 0 },
   totalPrice: { type: Number, default: 0 },
   discount: { type: Number, default: 0 },
+  timestamp: { type: Number, default: Date.now() },
   customer: {
     type: String,
     ref: 'Customer',

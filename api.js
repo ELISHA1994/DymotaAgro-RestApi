@@ -322,7 +322,7 @@ async function getUser(req, res, next) {
 }
 
 async function listUsers(req, res, next) {
-  if (!req.isAdmin) return forbidden(next)
+  // if (!req.isAdmin) return forbidden(next)
 
   const {offset = 0, limit = 25} = req.query
   const users = await Users.list({
