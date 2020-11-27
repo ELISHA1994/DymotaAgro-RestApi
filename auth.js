@@ -22,6 +22,10 @@ module.exports = {
   currentAccount: autoCatch(currentAccount),
   changePassword: autoCatch(changePassword),
 }
+// const date = new Date()
+// console.log(date)
+// date.setHours(0, 59, 59, 1000)
+// console.log(date)
 
 async function userLogin (req, res, next) {
   const { username } = req.body

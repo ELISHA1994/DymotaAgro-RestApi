@@ -2,9 +2,12 @@ const cuid = require('cuid')
 const db = require('../db')
 const Products = require('./products');
 
+// const lastWeek = new Date()
+// lastWeek.setDate(lastWeek.getDate() +3)
+// lastWeek.setHours(14, 30, 30, 1000)
 const Purchase = db.model('Purchase', {
   _id: { type: String, default: cuid },
-  timestamp: { type: Number, default: Date.now() },
+  timestamp: {type: Number, default: new Date()},
   products: [
     {
       _id: false,
@@ -31,7 +34,8 @@ module.exports = {
   remove,
   list,
   get,
-  edit
+  edit,
+  model: Purchase
 }
 
 async function create(fields) {

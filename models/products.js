@@ -26,7 +26,9 @@ module.exports = {
   remove,
   addProduct,
   subtractProduct,
+  getPrice,
 }
+
 
 async function list(opts = {}) {
   const { offset = 0, limit = 25, tag } = opts
@@ -38,7 +40,11 @@ async function list(opts = {}) {
     .limit(limit)
   return products
 }
-
+async function getPrice(_id) {
+  const product =  await Product.findById(_id)
+  // console.log('from product', product.sellingPrice)
+  return product.sellingPrice
+}
 async function get(_id) {
   const product = await Product.findById(_id)
   return product

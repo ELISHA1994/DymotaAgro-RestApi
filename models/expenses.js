@@ -7,7 +7,7 @@ const Expense = db.model('Expense', {
   person: { type: String, required: true },
   price: { type: Number, required: true },
   description: { type: String },
-  timestamp: { type: Number, default: Date.now() },
+  timestamp: {type: Number, default: new Date() },
   employee: {
     type: String,
     ref: 'Employee',
@@ -20,7 +20,8 @@ module.exports = {
   list,
   get,
   edit,
-  remove
+  remove,
+  model: Expense
 }
 
 async function create(fields) {

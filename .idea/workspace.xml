@@ -1,33 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand />
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="05dfef6d-e4bf-4cfe-82c0-b4704b35fe70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin.jwt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/expenses.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/expenses.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/products.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/purchases.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/purchases.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/sales.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/sales.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/cleanui/layout/TopBar/UserMenu/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/cleanui/layout/TopBar/UserMenu/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/cleanui/system/Auth/Lockscreen/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/cleanui/system/Auth/Lockscreen/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/cleanui/system/Auth/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/cleanui/system/Auth/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/kit/widgets/Charts/11/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/kit/widgets/Charts/11/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/layouts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/layouts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/redux/user/sagas.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/redux/user/sagas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/axios/fakeApi/auth/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/axios/fakeApi/auth/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/axios/fakeApi/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/axios/fakeApi/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/axios/fakeApi/mock.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/axios/fakeApi/mock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/axios/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/axios/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/jwt/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/jwt/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,12 +103,47 @@
       <workItem from="1604388053010" duration="20559000" />
       <workItem from="1605004956578" duration="13961000" />
       <workItem from="1605111656128" duration="22232000" />
-      <workItem from="1605370878875" duration="14948000" />
+      <workItem from="1605370878875" duration="48621000" />
+      <workItem from="1606136893443" duration="6656000" />
+      <workItem from="1606314355057" duration="10879000" />
+      <workItem from="1606417060906" duration="7959000" />
+      <workItem from="1606470219987" duration="4000" />
+      <workItem from="1606470248760" duration="4956000" />
+      <workItem from="1606482431374" duration="488000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="1" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="554" y="360" key="#Notifications" timestamp="1602334352099">
@@ -209,9 +230,13 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="3" y="164" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1601930422247" />
-    <state x="111" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1601074545107">
+    <state x="100" y="128" width="1480" height="822" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1606473321479">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="111" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1601074545107" />
+    <state x="100" y="128" width="1480" height="822" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1606473321479" />
+    <state x="111" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1606321438502">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="111" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1606321438502" />
   </component>
 </project>

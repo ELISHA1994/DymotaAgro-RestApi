@@ -18,7 +18,7 @@ app.use(cookieParser())
 
 
 // Dashboard
-// app.get('/dashboard', auth.ensureUser, api.getData)
+app.get('/dashboard', auth.ensureUser, api.getDashboardData)
 
 // Login
 app.post('/login', auth.authenticate, auth.userLogin)
@@ -58,32 +58,32 @@ app.put('/customers/:id', auth.ensureUser, api.editCustomer)
 app.delete('/customers/:id', auth.ensureUser, api.deleteCustomer)
 
 // Employee end-point
-app.post('/employees', api.createEmployee)
-app.get('/employees', api.listEmployees)
-app.get('/employees/:id', api.getEmployee)
-app.put('/employees/:id', api.editEmployee)
-app.delete('/employees/:id', api.deleteEmployee)
+app.post('/employees', auth.ensureUser, api.createEmployee)
+app.get('/employees', auth.ensureUser, api.listEmployees)
+app.get('/employees/:id', auth.ensureUser, api.getEmployee)
+app.put('/employees/:id', auth.ensureUser, api.editEmployee)
+app.delete('/employees/:id', auth.ensureUser, api.deleteEmployee)
 
 // Supplier end-point
-app.post('/suppliers', api.createSupplier)
-app.get('/suppliers', api.listSuppliers)
-app.get('/suppliers/:id', api.getSupplier)
-app.put('/suppliers/:id', api.editSupplier)
-app.delete('/suppliers/:id', api.deleteSupplier)
+app.post('/suppliers', auth.ensureUser, api.createSupplier)
+app.get('/suppliers', auth.ensureUser, api.listSuppliers)
+app.get('/suppliers/:id', auth.ensureUser, api.getSupplier)
+app.put('/suppliers/:id', auth.ensureUser, api.editSupplier)
+app.delete('/suppliers/:id', auth.ensureUser, api.deleteSupplier)
 
 // Purchases end-point
-app.post('/purchases', api.createPurchase)
-app.get('/purchases', api.listPurchases)
-app.get('/purchases/:id', api.getPurchase)
-app.put('/purchases/:id', api.editPurchase)
-app.delete('/purchases/:id', api.deletePurchase)
+app.post('/purchases', auth.ensureUser, api.createPurchase)
+app.get('/purchases', auth.ensureUser, api.listPurchases)
+app.get('/purchases/:id', auth.ensureUser, api.getPurchase)
+app.put('/purchases/:id', auth.ensureUser, api.editPurchase)
+app.delete('/purchases/:id', auth.ensureUser, api.deletePurchase)
 
 // Expenses end-point
-app.post('/expenses', api.createExpense)
-app.get('/expenses', api.listExpenses)
-app.get('/expenses/:id', api.getExpense)
-app.put('/expenses/:id', api.editExpense)
-app.delete('/expenses/:id', api.deleteExpense)
+app.post('/expenses', auth.ensureUser, api.createExpense)
+app.get('/expenses', auth.ensureUser, api.listExpenses)
+app.get('/expenses/:id', auth.ensureUser, api.getExpense)
+app.put('/expenses/:id', auth.ensureUser, api.editExpense)
+app.delete('/expenses/:id', auth.ensureUser, api.deleteExpense)
 
 // Not Found and Error Middleware
 app.use(middleware.handleValidationError)

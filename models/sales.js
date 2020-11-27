@@ -2,7 +2,9 @@ const cuid = require('cuid')
 const Products = require('./products')
 const db = require('../db')
 
-
+// const lastWeek = new Date()
+// lastWeek.setDate(lastWeek.getDate() -7)
+// lastWeek.setHours(0, 59, 59, 1000)
 const Sale = db.model('Sale', {
   _id: { type: String, default: cuid },
   products: [
@@ -13,13 +15,13 @@ const Sale = db.model('Sale', {
         ref: 'Product',
         required: true
       },
-      quantity: { type: Number, required: true }
+      quantity: { type: String, required: true }
     }
   ],
   totalQuantity: { type: Number, default: 0 },
   totalPrice: { type: Number, default: 0 },
   discount: { type: Number, default: 0 },
-  timestamp: { type: Number, default: Date.now() },
+  timestamp: {type: Number, default: new Date() },
   customer: {
     type: String,
     ref: 'Customer',
@@ -44,7 +46,38 @@ module.exports = {
   create,
   list,
   edit,
-  remove
+  remove,
+  model: Sale
+}
+// 1605194171625
+
+async function create(fields) {
+  const sale = await new Sale(fields)
+  let totalQuantity = 0
+  let totalPrice = 0
+  let change = {
+    quantity: 0
+  }
+  for (const {productID, quantity} of sale.products) {
+    change.quantity = quantity
+    await Products.subtractProduct(productID, change)
+
+    const price = await Products.getPrice(productID)
+    totalQuantity += parseInt(quantity)
+    totalPrice += parseInt(price)
+  }
+  if (fields.discount) {
+    const discount = fields.discount
+    totalPrice -= parseInt(discount)
+  }
+  sale.totalQuantity = totalQuantity
+  sale.totalPrice = totalPrice
+  await sale
+    .populate('customer')
+    .populate('employee')
+    .execPopulate()
+  await sale.save()
+  return sale
 }
 
 async function edit(_id, change) {
@@ -55,31 +88,13 @@ async function edit(_id, change) {
   await sale.save()
   return sale
 }
+
 async function get(_id) {
   const sale = await Sale.findById(_id)
     .populate('product')
     .populate('customer')
     .populate('employee')
     .exec()
-  return sale
-}
-
-async function create(fields) {
-  const sale = await new Sale(fields)
-  let totalQuantity = 0
-  let change = {
-    quantity: 0
-  }
-  sale.products.forEach(({ productID, quantity }) => {
-    change.quantity = quantity
-    Products.subtractProduct(productID, change)
-    totalQuantity += quantity
-  })
-  await sale
-    .populate('customer')
-    .populate('employee')
-    .execPopulate()
-  await sale.save()
   return sale
 }
 
